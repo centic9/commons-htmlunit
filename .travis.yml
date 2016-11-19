@@ -1,0 +1,12 @@
+language: java
+jdk:
+  - oraclejdk8
+ 
+before_install:
+ - chmod +x gradlew
+
+install: ./gradlew checkSnapshotDependencies compileJava
+script: ./gradlew eclipse check jacocoTestReport javadoc javadocJar sourcesJar checkSnapshotDependencies
+
+after_failure:
+- cat build/test-results/*.xml
