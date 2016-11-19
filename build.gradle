@@ -110,7 +110,7 @@ uploadArchives {
         name 'Common HtmlUnit Helpers'
         packaging 'jar'
         // optionally artifactId can be defined here 
-        description 'Common HtmlUnit Helper I find useful in many of my projects.'
+        description 'Common HtmlUnit utility methods that I find useful in various projects.'
         url 'https://github.com/centic9/commons-htmlunit'
 
         scm {
