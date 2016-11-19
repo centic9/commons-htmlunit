@@ -93,7 +93,7 @@ public class WebPageFileCacheTest {
 			DomNode seller = span.getParentNode().getParentNode();
 			for (HtmlElement element : seller.getHtmlElementDescendants()) {
 				if (element instanceof HtmlAnchor) {
-					String href = ((HtmlAnchor) element).getAttribute("href");
+					String href = element.getAttribute("href");
 					if (href.contains("A3TN1BADY8I80N")) {
 						// done!
 						return;

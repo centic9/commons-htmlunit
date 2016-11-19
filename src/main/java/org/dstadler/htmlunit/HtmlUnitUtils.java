@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class HtmlUnitUtils {
     private static final Log logger = LogFactory.getLog(HtmlUnitUtils.class);
 

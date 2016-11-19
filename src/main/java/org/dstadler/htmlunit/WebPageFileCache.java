@@ -1,23 +1,15 @@
-/***************************************************
- * dynaTrace Diagnostics (c) dynaTrace software GmbH
- *
- * @file: WebPageFileCache.java
- * @date: 10.12.2014
- * @author: cwat-dstadler
- */
 package org.dstadler.htmlunit;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -58,7 +50,8 @@ public class WebPageFileCache {
 
 	/**
 	 * Remove all stored cached files
-	 * @throws IOException
+	 * @throws IOException              in case deletion is unsuccessful
+	 * @throws IllegalArgumentException if {@code directory} does not exist or is not a directory
 	 */
 	public void clear() throws IOException {
 		FileUtils.deleteDirectory(CACHE_DIR);
