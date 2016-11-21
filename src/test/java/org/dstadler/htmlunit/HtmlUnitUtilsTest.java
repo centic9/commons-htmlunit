@@ -166,10 +166,10 @@ public class HtmlUnitUtilsTest {
 
             HtmlPage page = HtmlUnitUtils.getInitialPage(client, "http://localhost:" + port);
 
-            // get by attribute
+            // not found with invalid content
             List<HtmlElement> elements = HtmlUnitUtils.getElementsByAttribute(page, "img", "id", "nonexistingid", HtmlElement.class);
             assertNotNull(elements);
-            assertEquals("Had: " + elements, 0, elements.size());
+            assertTrue("Had: " + elements, elements.isEmpty());
 
             try {
                 HtmlUnitUtils.getElementsByAttribute(page, "img", "id", "testid", HtmlTextInput.class);
@@ -178,9 +178,55 @@ public class HtmlUnitUtilsTest {
                 TestHelpers.assertContains(e, "Expected a field with tag", "type com.gargoylesoftware.htmlunit.html.HtmlTextInput", "testid", "HtmlImage");
             }
 
+            // found with correct content
             List<HtmlImage> elementsByAttribute = HtmlUnitUtils.getElementsByAttribute(page, "img", "id", "testid", HtmlImage.class);
             assertNotNull(elementsByAttribute);
             assertFalse("Had: " + elementsByAttribute, elementsByAttribute.isEmpty());
+
+            verifier.addObject(page);
+        } finally {
+            server.stop();
+        }
+
+        verifier.addObject(server);
+    }
+
+    @Test
+    public void testGetElementByTextContains() throws Exception {
+        int port = SocketUtils.getNextFreePort(8000, 9000);
+
+        NanoHTTPD server = new NanoHTTPD(port) {
+            @Override
+            public Response serve(String uri, String method, Properties header, Properties parms) {
+                return new Response(HTTP_OK, MIME_HTML, "<html><body>" +
+                        "<img src=\"blabla\" id=\"testid\"/>" +
+                        "<img src=\"blabla\" name=\"testname\"/>" +
+                        "<form name=\"testform\"><input type=\"text\"/><input type=\"text\"/><input type=\"image\"/>bla text1 bla</form>" +
+                        "</body></html>");
+            }
+        };
+        try (WebClient client = HtmlUnitUtils.createWebClient(enableJavascript)) {
+            verifier.addObject(client);
+
+            // set empty proxy for localhost
+            client.getOptions().setProxyConfig(new ProxyConfig());
+
+            HtmlPage page = HtmlUnitUtils.getInitialPage(client, "http://localhost:" + port);
+
+            List<HtmlElement> elements = HtmlUnitUtils.getElementsByTextContents(page, "form", "bla text1 bla", HtmlElement.class);
+            assertNotNull(elements);
+            assertFalse("Had: " + elements, elements.isEmpty());
+
+            try {
+                HtmlUnitUtils.getElementsByTextContents(page, "form", "bla text1 bla", HtmlTextInput.class);
+                fail("Expected exception when using a non-matching element type");
+            } catch (WrongElementException e) {
+                TestHelpers.assertContains(e, "Expected a field with tag", "type com.gargoylesoftware.htmlunit.html.HtmlTextInput", "text1", "HtmlForm");
+            }
+
+            List<HtmlImage> elementsByAttribute = HtmlUnitUtils.getElementsByTextContents(page, "img", "notfoundtext", HtmlImage.class);
+            assertNotNull(elementsByAttribute);
+            assertTrue("Had: " + elementsByAttribute, elementsByAttribute.isEmpty());
 
             verifier.addObject(page);
         } finally {
@@ -489,7 +535,7 @@ public class HtmlUnitUtilsTest {
             try {
                 HtmlUnitUtils.getElementsByAttributeContains(page, "img", "id", "testid", HtmlInlineFrame.class);
                 fail("Expected exception");
-            } catch (IllegalStateException e) {
+            } catch (WrongElementException e) {
                 TestHelpers.assertContains(e, "Expected a field with tag", "type com.gargoylesoftware.htmlunit.html.HtmlInlineFrame", "testid", "HtmlImage");
             }
 

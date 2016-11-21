@@ -124,7 +124,7 @@ public class HtmlUnitUtils {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends HtmlElement> List<T> getElementsByAttributeContains(final HtmlPage page, String tagname, String attribute, String value, Class<T> type) {
+    public static <T extends HtmlElement> List<T> getElementsByAttributeContains(final HtmlPage page, String tagname, String attribute, String value, Class<T> type) throws WrongElementException {
         List<T> list = new ArrayList<>();
         DomNodeList<DomElement> elementsByTagName = page.getElementsByTagName(tagname);
         for(DomElement element : elementsByTagName) {
@@ -132,8 +132,28 @@ public class HtmlUnitUtils {
             if(attValue.contains(value)) {
                 if(!type.isAssignableFrom(element.getClass())) {
                     logger.warn("Page contents (" + page.getUrl() + "): " + page.asXml());
-                    throw new IllegalStateException("Expected a field with tag '" + tagname + "', attribute '" + attribute +
+                    throw new WrongElementException("Expected a field with tag '" + tagname + "', attribute '" + attribute +
                             "', which contains value '" + value + "' and type " + type.getName() +
+                            ", but had an element of type " + element.getClass() + " on page: " + page.getUrl());
+                }
+
+                list.add((T) element);
+            }
+        }
+
+        return list;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends HtmlElement> List<T> getElementsByTextContents(final HtmlPage page, String tagname, String text, Class<T> type) throws WrongElementException {
+        List<T> list = new ArrayList<>();
+        DomNodeList<DomElement> elementsByTagName = page.getElementsByTagName(tagname);
+        for(DomElement element : elementsByTagName) {
+            if(element.getTextContent().equals(text)) {
+                if(!type.isAssignableFrom(element.getClass())) {
+                    logger.warn("Page contents (" + page.getUrl() + "): " + page.asXml());
+                    throw new WrongElementException("Expected a field with tag '" + tagname + "', " +
+                            "which contains text '" + text + "' and type " + type.getName() +
                             ", but had an element of type " + element.getClass() + " on page: " + page.getUrl());
                 }
 
