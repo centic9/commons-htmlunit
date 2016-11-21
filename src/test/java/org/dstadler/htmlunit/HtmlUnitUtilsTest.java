@@ -38,7 +38,7 @@ public class HtmlUnitUtilsTest {
     }
 
     @Parameterized.Parameter
-    private Boolean enableJavascript;
+    public Boolean enableJavascript;
 
     private final MemoryLeakVerifier verifier = new MemoryLeakVerifier();
 
