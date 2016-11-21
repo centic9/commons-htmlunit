@@ -16,6 +16,9 @@ import java.util.Stack;
 public class HtmlUnitUtils {
     private static final Log logger = LogFactory.getLog(HtmlUnitUtils.class);
 
+    private HtmlUnitUtils() {
+    }
+
     public static WebClient createWebClient() {
         return createWebClient(true);
     }
@@ -68,7 +71,7 @@ public class HtmlUnitUtils {
             logger.warn("Page contents (" + page.getUrl() + "): " + page.asXml());
             throw new NoElementFoundException("Could not find element with id '" + id + "' on page " + page.getUrl());
         }
-        if(!(type.isAssignableFrom(element.getClass()))) {
+        if(!type.isAssignableFrom(element.getClass())) {
             logger.warn("Page contents (" + page.getUrl() + "): " + page.asXml());
             throw new WrongElementException("Expected a field with id '" + id + "' and type " + type.getName() +
                     ", but had an element of type " + element.getClass() + " on page: " + page.getUrl());
@@ -82,7 +85,7 @@ public class HtmlUnitUtils {
         final HtmlElement element;
         try {
             element = page.getElementByName(name);
-        } catch (com.gargoylesoftware.htmlunit.ElementNotFoundException e) {
+        } catch (ElementNotFoundException e) {
             throw new NoElementFoundException("Could not find element with name '" + name + "' on page " + page.getUrl() + ": " + e);
         }
         /*will throw exception anyway:
@@ -90,7 +93,7 @@ public class HtmlUnitUtils {
             logger.warn("Page contents (" + page.getUrl() + "): " + page.asXml());
             throw new ElementNotFoundException("Could not find element with name '" + name + "' on page " + page.getUrl());
         }*/
-        if(!(type.isAssignableFrom(element.getClass()))) {
+        if(!type.isAssignableFrom(element.getClass())) {
             logger.warn("Page contents (" + page.getUrl() + "): " + page.asXml());
             throw new WrongElementException("Expected a field with name '" + name + "' and type " + type.getName() +
                     ", but had an element of type " + element.getClass() + " on page: " + page.getUrl());
@@ -106,7 +109,7 @@ public class HtmlUnitUtils {
         for(DomElement element : elementsByTagName) {
             String attValue = element.getAttribute(attribute);
             if(attValue.equals(value)) {
-                if(!(type.isAssignableFrom(element.getClass()))) {
+                if(!type.isAssignableFrom(element.getClass())) {
                     logger.warn("Page contents (" + page.getUrl() + "): " + page.asXml());
                     throw new WrongElementException("Expected a field with tag '" + tagname + "', attribute '" + attribute +
                             "', value '" + value + "' and type " + type.getName() +
@@ -127,7 +130,7 @@ public class HtmlUnitUtils {
         for(DomElement element : elementsByTagName) {
             String attValue = element.getAttribute(attribute);
             if(attValue.contains(value)) {
-                if(!(type.isAssignableFrom(element.getClass()))) {
+                if(!type.isAssignableFrom(element.getClass())) {
                     logger.warn("Page contents (" + page.getUrl() + "): " + page.asXml());
                     throw new IllegalStateException("Expected a field with tag '" + tagname + "', attribute '" + attribute +
                             "', which contains value '" + value + "' and type " + type.getName() +
@@ -146,19 +149,19 @@ public class HtmlUnitUtils {
         final HtmlForm form;
         try {
             form = page.getFormByName(formName);
-        } catch (com.gargoylesoftware.htmlunit.ElementNotFoundException e) {
+        } catch (ElementNotFoundException e) {
             throw new NoElementFoundException("Could not find form with name '" + formName + "' on page " + page.getUrl() + ": " + e);
         }
 
-        T search = null;
         // use a stack to recursively walk into all sub-elements, not just the first level
         Stack<DomElement> elements = new Stack<>();
         Iterators.addAll(elements, form.getChildElements().iterator());
+        T search = null;
         while(!elements.isEmpty()) {
             DomElement it = elements.pop();
             if(type.isAssignableFrom(it.getClass())) {
                 if(search != null) {
-                    logger.warn("Form contents (" + page.getUrl() + "/" + formName + "): " + form.asXml());
+                    logger.warn("Form contents (" + page.getUrl() + '/' + formName + "): " + form.asXml());
                     throw new HtmlUnitException("Did find more than one element of type " + type.getName() + " in form '" + formName + "' on page " + page.getUrl());
                 }
 
@@ -167,7 +170,7 @@ public class HtmlUnitUtils {
             Iterators.addAll(elements, it.getChildElements().iterator());
         }
         if(search == null) {
-            logger.warn("Form contents (" + page.getUrl() + "/" + formName + "): " + form.asXml());
+            logger.warn("Form contents (" + page.getUrl() + '/' + formName + "): " + form.asXml());
             throw new NoElementFoundException("Could not find element of type " + type.getName() + " in form '" + formName + "' on page " + page.getUrl());
         }
         return search;
@@ -176,11 +179,10 @@ public class HtmlUnitUtils {
 
     @SuppressWarnings("unchecked")
     public static <T extends HtmlElement> T getFormElementByName(final HtmlForm form, String name, Class<T> type) throws HtmlUnitException {
-        HtmlElement element = null;
-
         // use a stack to recursively walk into all sub-elements, not just the first level
         Stack<DomElement> elements = new Stack<>();
         Iterators.addAll(elements, form.getChildElements().iterator());
+        HtmlElement element = null;
         while(!elements.isEmpty()) {
             DomElement it = elements.pop();
             if(it.getAttribute("name").equals(name)) {
@@ -200,7 +202,7 @@ public class HtmlUnitUtils {
             throw new NoElementFoundException("Could not find element with name " + name + " of type " + type.getName() + " in form '" + form.getNameAttribute());
         }
 
-        if(!(type.isAssignableFrom(element.getClass()))) {
+        if(!type.isAssignableFrom(element.getClass())) {
             logger.warn("Form contents: " + form.asXml());
             throw new WrongElementException("Expected a field with name '" + name + "' and type " + type.getName() +
                     ", but had an element of type " + element.getClass());
@@ -211,11 +213,10 @@ public class HtmlUnitUtils {
 
     @SuppressWarnings("unchecked")
     public static <T extends HtmlElement> T getFormElementByNameAndValue(final HtmlForm form, String name, String value, Class<T> type) throws HtmlUnitException {
-        HtmlElement element = null;
-
         // use a stack to recursively walk into all sub-elements, not just the first level
         Stack<DomElement> elements = new Stack<>();
         Iterators.addAll(elements, form.getChildElements().iterator());
+        HtmlElement element = null;
         while(!elements.isEmpty()) {
             DomElement it = elements.pop();
             if(it.getAttribute("name").equals(name) && it.getAttribute("value").equals(value)) {
@@ -235,7 +236,7 @@ public class HtmlUnitUtils {
             throw new NoElementFoundException("Could not find element with name " + name + ", value " + value + " of type " + type.getName() + " in form '" + form.getNameAttribute());
         }
 
-        if(!(type.isAssignableFrom(element.getClass()))) {
+        if(!type.isAssignableFrom(element.getClass())) {
             logger.warn("Form contents: " + form.asXml());
             throw new WrongElementException("Expected a field with name '" + name + "', value '" + value + "' and type " + type.getName() +
                     ", but had an element of type " + element.getClass());
@@ -246,11 +247,10 @@ public class HtmlUnitUtils {
 
     @SuppressWarnings("unchecked")
     public static <T extends HtmlElement> T getFormElementByType(final HtmlForm form, Class<T> type) throws HtmlUnitException {
-        HtmlElement element = null;
-
         // use a stack to recursively walk into all sub-elements, not just the first level
         Stack<DomElement> elements = new Stack<>();
         Iterators.addAll(elements, form.getChildElements().iterator());
+        HtmlElement element = null;
         while(!elements.isEmpty()) {
             DomElement it = elements.pop();
             if(type.isAssignableFrom(it.getClass())) {
@@ -290,7 +290,7 @@ public class HtmlUnitUtils {
             }
         }
 
-        throw new NoElementFoundException("Could not find form with action '" + action + "'");
+        throw new NoElementFoundException("Could not find form with action '" + action + '\'');
     }
 
     /**
