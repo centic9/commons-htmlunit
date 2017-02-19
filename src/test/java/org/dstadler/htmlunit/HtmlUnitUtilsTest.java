@@ -533,7 +533,7 @@ public class HtmlUnitUtilsTest {
             assertEquals("Had: " + elements, 0, elements.size());
 
             try {
-                HtmlUnitUtils.getElementsByAttributeContains(page, "img", "id", "testid", HtmlInlineFrame.class);
+                HtmlUnitUtils.getElementsByAttributeContains(page, "div", "href", "testid", HtmlInlineFrame.class);
                 fail("Expected exception");
             } catch (WrongElementException e) {
                 TestHelpers.assertContains(e, "Expected a field with tag", "type com.gargoylesoftware.htmlunit.html.HtmlInlineFrame", "testid", "HtmlImage");
@@ -610,11 +610,11 @@ public class HtmlUnitUtilsTest {
         try (WebClient webClient = HtmlUnitUtils.createWebClient(false)) {
             verifier.addObject(webClient);
 
-            try (MockRESTServer server = new MockRESTServer(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_HTML, "<html>Not</html>")) {
+            try (MockRESTServer server = new MockRESTServer(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_HTML, "<html>Ok</html>")) {
                 verifier.addObject(server);
                 SgmlPage page = webClient.getPage("http://localhost:" + server.getPort());
                 try {
-                    HtmlUnitUtils.waitForText(page, "Ok", 100);
+                    HtmlUnitUtils.waitForText(page, "Not found", 100);
                     fail("Should catch Exception here");
                 } catch (IllegalStateException e) {
                     // expected here
