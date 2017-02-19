@@ -533,10 +533,10 @@ public class HtmlUnitUtilsTest {
             assertEquals("Had: " + elements, 0, elements.size());
 
             try {
-                HtmlUnitUtils.getElementsByAttributeContains(page, "div", "href", "testid", HtmlInlineFrame.class);
+                HtmlUnitUtils.getElementsByAttributeContains(page, "form", "name", "test", HtmlInlineFrame.class);
                 fail("Expected exception");
             } catch (WrongElementException e) {
-                TestHelpers.assertContains(e, "Expected a field with tag", "type com.gargoylesoftware.htmlunit.html.HtmlInlineFrame", "testid", "HtmlImage");
+                TestHelpers.assertContains(e, "Expected a field with tag", "type com.gargoylesoftware.htmlunit.html.HtmlInlineFrame", "test", "HtmlForm");
             }
 
             // none found with normal ByAttribute
