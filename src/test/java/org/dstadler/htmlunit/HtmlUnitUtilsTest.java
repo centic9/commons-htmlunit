@@ -178,6 +178,10 @@ public class HtmlUnitUtilsTest {
                 TestHelpers.assertContains(e, "Expected a field with tag", "type com.gargoylesoftware.htmlunit.html.HtmlTextInput", "testid", "HtmlImage");
             }
 
+            List<HtmlTextInput> inputElements = HtmlUnitUtils.getElementsByAttribute(page, "noimg", "noid", "testid", HtmlTextInput.class);
+            assertTrue("Did not expect any elements, but had " + inputElements, inputElements.isEmpty());
+
+
             // found with correct content
             List<HtmlImage> elementsByAttribute = HtmlUnitUtils.getElementsByAttribute(page, "img", "id", "testid", HtmlImage.class);
             assertNotNull(elementsByAttribute);
@@ -628,6 +632,15 @@ public class HtmlUnitUtilsTest {
         // cover the create() without parameter as well
         try (WebClient webClient = HtmlUnitUtils.createWebClient()) {
             assertNotNull(webClient);
+        }
+    }
+
+    @Test
+    public void testWaitForJavaScript() {
+        try (WebClient webClient = HtmlUnitUtils.createWebClient()) {
+            HtmlUnitUtils.waitForJavascript(webClient, 0);
+            HtmlUnitUtils.waitForJavascript(webClient, 10);
+            HtmlUnitUtils.waitForJavascript(webClient, 1000);
         }
     }
 }
