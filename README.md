@@ -29,6 +29,10 @@ Here an (incomplete) list of bits and pieces in this lib:
 	cd commons-htmlunit
 	./gradlew check jacocoTestReport
 
+### Release it
+
+    ./gradlew release
+
 #### Licensing
 * commons-htmlunit is licensed under the [BSD 2-Clause License]
 
