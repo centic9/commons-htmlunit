@@ -16,7 +16,7 @@ import static org.junit.Assert.assertNotNull;
 
 
 public class WebPageFileCacheTest {
-    private static final String AMAZON_URL = "http://www.amazon.de/gp/offer-listing/B009S4DVI2/ref=dp_olp_new?ie=UTF8&condition=new";
+    private static final String AMAZON_URL = "https://www.amazon.de/dp/B009S4DVI2";
 
     private final MemoryLeakVerifier verifier = new MemoryLeakVerifier();
 
@@ -66,6 +66,30 @@ public class WebPageFileCacheTest {
 
             // load a second time, now from the cache
             page = cache.handle(webClient, AMAZON_URL);
+            //checkAmazon(page);
+            assertNotNull(page);
+
+            verifier.addObject(page);
+        }
+    }
+
+    @Test
+    public void testHandleComplexPage2() throws Exception {
+        try (WebClient webClient = HtmlUnitUtils.createWebClient(false)) {
+            verifier.addObject(webClient);
+
+            WebPageFileCache cache = new WebPageFileCache();
+
+            // make sure the cache is empty initially
+            cache.clear();
+
+            // load the file the first time
+            HtmlPage page = cache.handle(webClient, "https://www.amazon.de/Tr%C3%A4umeland-T015231-Babymatratze-Fr%C3%BChlingsluft-wei%C3%9F/dp/B009S4DVI2/ref=sr_1_1/261-6670114-6177027?ie=UTF8&amp;qid=1546893038&amp;sr=8-1&amp;keywords=tr%C3%A4umeland%2BFr%C3%BChlingsluft");
+            //checkAmazon(page);
+            assertNotNull(page);
+
+            // load a second time, now from the cache
+            page = cache.handle(webClient, "https://www.amazon.de/Tr%C3%A4umeland-T015231-Babymatratze-Fr%C3%BChlingsluft-wei%C3%9F/dp/B009S4DVI2/ref=sr_1_1/261-6670114-6177027?ie=UTF8&amp;qid=1546893038&amp;sr=8-1&amp;keywords=tr%C3%A4umeland%2BFr%C3%BChlingsluft");
             //checkAmazon(page);
             assertNotNull(page);
 

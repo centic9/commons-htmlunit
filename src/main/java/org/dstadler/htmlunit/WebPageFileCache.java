@@ -2,8 +2,9 @@ package org.dstadler.htmlunit;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.google.common.base.Charsets;
+import com.google.common.hash.Hashing;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -58,7 +59,8 @@ public class WebPageFileCache {
     }
 
     private static String stripUrl(String url) {
-        // remove special chars to allow to use the url as filename
-        return StringUtils.removePattern(url, "[:/_&?=]");
+        // use hashing to avoid filenames becoming too long or containing special characters
+        //noinspection UnstableApiUsage
+        return Hashing.murmur3_128().hashString(url, Charsets.UTF_8).toString();
     }
 }
