@@ -12,7 +12,6 @@ Here an (incomplete) list of bits and pieces in this lib:
 * HtmlUnitUtils - Helper methods to create a WebClient and to fetch HTML-items from a page
 * WebPageFileCache - A simple cache for web-pages to avoid fetching the same content again and again.
 
-
 ## Use it
 
 ### Gradle
@@ -24,10 +23,6 @@ Here an (incomplete) list of bits and pieces in this lib:
 ### Grab it
 
     git clone git://github.com/centic9/commons-htmlunit
-
-### Create Eclipse project files
-
-	./gradlew eclipse
 
 ### Build it and run tests
 

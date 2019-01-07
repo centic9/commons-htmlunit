@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-@SuppressWarnings("ResultOfMethodCallIgnored")
 public class HtmlUnitUtils {
     private static final Log logger = LogFactory.getLog(HtmlUnitUtils.class);
 
@@ -24,7 +23,7 @@ public class HtmlUnitUtils {
     }
 
     public static WebClient createWebClient(boolean enableJavaScript) {
-        return createWebClient(enableJavaScript, BrowserVersion.FIREFOX_45);
+        return createWebClient(enableJavaScript, BrowserVersion.FIREFOX_60);
     }
 
     public static WebClient createWebClient(boolean enableJavaScript, BrowserVersion browserVersion) {
