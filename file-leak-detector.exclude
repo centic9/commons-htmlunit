@@ -1,0 +1,16 @@
+# file-leak-detector
+org.kohsuke.file_leak_detector.AgentMain.runHttpServer
+sun.instrument.InstrumentationImpl.loadClassAndStartAgent
+
+# JVM
+java.util.ResourceBundle$Control$1.run
+java.util.ResourceBundle$RBClassLoader.loadClass
+java.net.IDN.<clinit>
+sun.security.jca.ProviderConfig$2.run
+javax.crypto.JceSecurity.setupJurisdictionPolicies
+
+# Apache HTTP
+org.apache.http.conn.util.PublicSuffixMatcherLoader.load
+
+# HtmlUnit
+net.sourceforge.htmlunit.cyberneko.HTMLEntities.load0
