@@ -7,8 +7,10 @@ import org.junit.Test;
 public class HtmlUnitExceptionTest {
 
     @Test
-    public void test() throws Exception {
+    public void test() {
         // just cover the class
-        assertNotNull(new HtmlUnitException("teststring"));
+        HtmlUnitException test = new HtmlUnitException("teststring");
+        assertNotNull(test);
+        assertNotNull(test.getMessage());
     }
 }
