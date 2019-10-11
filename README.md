@@ -31,7 +31,7 @@ Here an (incomplete) list of bits and pieces in this lib:
 
 ### Release it
 
-    ./gradlew release
+    ./gradlew release closeAndReleaseRepository
 
 #### Licensing
 * commons-htmlunit is licensed under the [BSD 2-Clause License]
