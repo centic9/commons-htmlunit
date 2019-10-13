@@ -75,7 +75,7 @@ public class WebPageFileCacheTest {
             verifier.addObject(page);
         } catch (IOException e) {
             Assume.assumeFalse("This test fails with 503 HTTP on Travis-CI",
-                    !"true".equals(System.getenv("TRAVIS")) && !e.getMessage().contains("503 Service Unavailable"));
+                    "true".equals(System.getenv("TRAVIS")) && e.getMessage().contains("503 Service Unavailable"));
 
             throw e;
         }
@@ -102,6 +102,11 @@ public class WebPageFileCacheTest {
             assertNotNull(page);
 
             verifier.addObject(page);
+        } catch (IOException e) {
+            Assume.assumeFalse("This test fails with 503 HTTP on Travis-CI",
+                    "true".equals(System.getenv("TRAVIS")) && e.getMessage().contains("503 Service Unavailable"));
+
+            throw e;
         }
     }
 
