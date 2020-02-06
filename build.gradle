@@ -22,12 +22,12 @@ dependencies {
     compile 'net.sourceforge.htmlunit:htmlunit:2.33'
     compile 'com.google.guava:guava:19.0'
 
-    testCompile 'junit:junit:4.12'
+    testCompile 'junit:junit:4.13'
     testCompile 'org.dstadler:commons-test:1.0.0.18'
 }
 
 wrapper {
-    gradleVersion = '4.10.3'
+    gradleVersion = '5.6.4'
 }
 
 task adjustWrapperPropertiesFile {
