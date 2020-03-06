@@ -1,14 +1,16 @@
+dist: bionic
 language: java
 jdk:
-# started to fail, replace by openjdk8  - oraclejdk8
   - openjdk8
-  - oraclejdk11
-# not available yet  - openjdk11
+  - openjdk11
 
 before_install:
- - chmod +x gradlew
+ - chmod +x gradlew gradle/wrapper/gradle-wrapper.jar
 
-install: ./gradlew checkSnapshotDependencies compileJava
+install: 
+- gradle wrapper
+- ./gradlew checkSnapshotDependencies compileJava
+
 script: ./gradlew check jacocoTestReport javadoc javadocJar sourcesJar checkSnapshotDependencies
 
 after_failure:
