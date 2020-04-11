@@ -1,7 +1,7 @@
 plugins {
 	// https://github.com/researchgate/gradle-release
 	id 'net.researchgate.release' version '2.8.1'
-    id 'io.codearte.nexus-staging' version '0.21.1'
+    id 'io.codearte.nexus-staging' version '0.21.2'
 }
 
 apply plugin: 'java'
@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    compile 'net.sourceforge.htmlunit:htmlunit:2.33'
+    compile 'net.sourceforge.htmlunit:htmlunit:2.39.0'
     compile 'com.google.guava:guava:19.0'
 
     testCompile 'junit:junit:4.13'
@@ -108,7 +108,7 @@ uploadArchives {
       pom.project {
         name 'Common HtmlUnit Helpers'
         packaging 'jar'
-        // optionally artifactId can be defined here 
+        // optionally artifactId can be defined here
         description 'Common HtmlUnit utility methods that I find useful in various projects.'
         url 'https://github.com/centic9/commons-htmlunit'
 
