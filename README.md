@@ -36,4 +36,4 @@ Here an (incomplete) list of bits and pieces in this lib:
 #### Licensing
 * commons-htmlunit is licensed under the [BSD 2-Clause License]
 
-[BSD 2-Clause License]: http://www.opensource.org/licenses/bsd-license.php
+[BSD 2-Clause License]: https://www.opensource.org/licenses/bsd-license.php
