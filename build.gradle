@@ -22,14 +22,13 @@ dependencies {
     compile 'net.sourceforge.htmlunit:htmlunit:2.40.0'
     compile 'com.google.guava:guava:19.0'
 
-    testCompile 'junit:junit:4.13'
-    testCompile 'org.dstadler:commons-test:1.0.0.18'
+    testCompile 'junit:junit:4.13.1'
+    testCompile 'org.dstadler:commons-test:1.0.0.19'
 }
 
 wrapper {
-    gradleVersion = '5.6.4'
-}
-
+    gradleVersion = '6.6.1'
+}it 
 task adjustWrapperPropertiesFile {
     doLast {
         ant.replaceregexp(match: '^#.*', replace: '', flags: 'g', byline: true) {
