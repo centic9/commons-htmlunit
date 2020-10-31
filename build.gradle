@@ -28,7 +28,8 @@ dependencies {
 
 wrapper {
     gradleVersion = '6.6.1'
-}it 
+}
+
 task adjustWrapperPropertiesFile {
     doLast {
         ant.replaceregexp(match: '^#.*', replace: '', flags: 'g', byline: true) {
