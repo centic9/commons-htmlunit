@@ -1,7 +1,7 @@
 plugins {
 	// https://github.com/researchgate/gradle-release
 	id 'net.researchgate.release' version '2.8.1'
-    id 'io.codearte.nexus-staging' version '0.22.0'
+    id 'io.codearte.nexus-staging' version '0.30.0'
 }
 
 apply plugin: 'java'
@@ -19,8 +19,8 @@ repositories {
 }
 
 dependencies {
-    compile 'net.sourceforge.htmlunit:htmlunit:2.47.1'
-    compile 'com.google.guava:guava:30.1-jre'
+    compile 'net.sourceforge.htmlunit:htmlunit:2.50.0'
+    compile 'com.google.guava:guava:30.1.1-jre'
 
     testCompile 'junit:junit:4.13.2'
     testCompile 'org.dstadler:commons-test:1.0.0.19'
