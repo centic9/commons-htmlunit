@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    compile 'net.sourceforge.htmlunit:htmlunit:2.54.0'
+    compile 'net.sourceforge.htmlunit:htmlunit:2.55.0'
     compile 'com.google.guava:guava:31.0.1-jre'
 
     testCompile 'junit:junit:4.13.2'
