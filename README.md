@@ -1,6 +1,10 @@
-[![Build Status](https://travis-ci.org/centic9/commons-htmlunit.svg)](https://travis-ci.org/centic9/commons-htmlunit) [![Gradle Status](https://gradleupdate.appspot.com/centic9/commons-htmlunit/status.svg?branch=master)](https://gradleupdate.appspot.com/centic9/commons-htmlunit/status)
+[![Build Status](https://github.com/centic9/commons-htmlunit/actions/workflows/gradle-build.yml/badge.svg)](https://github.com/centic9/commons-htmlunit/actions)
+[![Gradle Status](https://gradleupdate.appspot.com/centic9/commons-htmlunit/status.svg?branch=master)](https://gradleupdate.appspot.com/centic9/commons-htmlunit/status)
 [![Release](https://img.shields.io/github/release/centic9/commons-htmlunit.svg)](https://github.com/centic9/commons-htmlunit/releases)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.dstadler/commons-htmlunit/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/org.dstadler/commons-htmlunit) [![Maven Central](https://img.shields.io/maven-central/v/org.dstadler/commons-htmlunit.svg)](https://maven-badges.herokuapp.com/maven-central/org.dstadler/commons-htmlunit)
+[![GitHub release](https://img.shields.io/github/release/centic9/commons-htmlunit.svg?label=changelog)](https://github.com/centic9/commons-htmlunit/releases/latest)
+[![Tag](https://img.shields.io/github/tag/centic9/commons-htmlunit.svg)](https://github.com/centic9/commons-htmlunit/tags)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.dstadler/commons-htmlunit/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/org.dstadler/commons-htmlunit) 
+[![Maven Central](https://img.shields.io/maven-central/v/org.dstadler/commons-htmlunit.svg)](https://maven-badges.herokuapp.com/maven-central/org.dstadler/commons-htmlunit)
 
 This is a small library of helpers that I find useful in projects where I use [HtmlUnit](http://htmlunit.sourceforge.net/).
 
