@@ -19,15 +19,15 @@ repositories {
 }
 
 dependencies {
-    compile 'net.sourceforge.htmlunit:htmlunit:2.60.0'
-    compile 'com.google.guava:guava:31.1-jre'
+    implementation 'net.sourceforge.htmlunit:htmlunit:2.60.0'
+    implementation 'com.google.guava:guava:31.1-jre'
 
-    testCompile 'junit:junit:4.13.2'
-    testCompile 'org.dstadler:commons-test:1.0.0.19'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.dstadler:commons-test:1.0.0.19'
 }
 
 wrapper {
-    gradleVersion = '6.6.1'
+    gradleVersion = '6.9.2'
 }
 
 task adjustWrapperPropertiesFile {
