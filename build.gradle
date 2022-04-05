@@ -19,8 +19,8 @@ repositories {
 }
 
 dependencies {
-    compile 'net.sourceforge.htmlunit:htmlunit:2.56.0'
-    compile 'com.google.guava:guava:31.0.1-jre'
+    compile 'net.sourceforge.htmlunit:htmlunit:2.60.0'
+    compile 'com.google.guava:guava:31.1-jre'
 
     testCompile 'junit:junit:4.13.2'
     testCompile 'org.dstadler:commons-test:1.0.0.19'
