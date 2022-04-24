@@ -26,12 +26,12 @@ Here an (incomplete) list of bits and pieces in this lib:
 
 ### Grab it
 
-    git clone git://github.com/centic9/commons-htmlunit
+    git clone https://github.com/centic9/commons-htmlunit.git
 
 ### Build it and run tests
 
-	cd commons-htmlunit
-	./gradlew check jacocoTestReport
+    cd commons-htmlunit
+    ./gradlew check jacocoTestReport
 
 ### Release it
 
