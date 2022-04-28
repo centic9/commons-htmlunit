@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'net.sourceforge.htmlunit:htmlunit:2.60.0'
+    implementation 'net.sourceforge.htmlunit:htmlunit:2.61.0'
     implementation 'com.google.guava:guava:31.1-jre'
 
     testImplementation 'junit:junit:4.13.2'
@@ -57,7 +57,7 @@ test {
 }
 
 jacoco {
-	toolVersion = '0.8.7'
+	toolVersion = '0.8.8'
 }
 
 jacocoTestReport {
