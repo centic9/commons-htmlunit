@@ -10,6 +10,8 @@ import org.apache.commons.logging.LogFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.concurrent.TimeUnit;
 
 
@@ -29,7 +31,8 @@ public class WebPageFileCache {
         File file = new File(CACHE_DIR, stripUrl(url) + ".html");
 
         // need to load from scratch
-        if(!file.exists() || file.length() == 0 || System.currentTimeMillis() - file.lastModified() > CACHE_FILE_TIMEOUT) {
+        BasicFileAttributes fileAttributes = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+        if(!file.exists() || fileAttributes.size() == 0 || System.currentTimeMillis() - fileAttributes.lastModifiedTime().toMillis() > CACHE_FILE_TIMEOUT) {
             logger.info("Loading page from " + url + ", storing in cache at " + file);
             HtmlPage page = HtmlUnitUtils.getInitialPage(webClient, url);
 
@@ -60,7 +63,6 @@ public class WebPageFileCache {
 
     private static String stripUrl(String url) {
         // use hashing to avoid filenames becoming too long or containing special characters
-        //noinspection UnstableApiUsage
         return Hashing.murmur3_128().hashString(url, Charsets.UTF_8).toString();
     }
 }

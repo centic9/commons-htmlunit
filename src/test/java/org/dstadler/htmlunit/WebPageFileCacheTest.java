@@ -30,7 +30,7 @@ public class WebPageFileCacheTest {
 
     @Test
     public void testHandle() throws Exception {
-        try (MockRESTServer server = new MockRESTServer(NanoHTTPD.HTTP_OK, "text/html", "<html><body><a href=\"http://www.google.at/\">link</a></body></html")) {
+        try (MockRESTServer server = new MockRESTServer(NanoHTTPD.HTTP_OK, "text/html", "<html><body><a href=\"https://www.google.at/\">link</a></body></html")) {
             try (WebClient webClient = HtmlUnitUtils.createWebClient(false)) {
                 verifier.addObject(webClient);
 
@@ -145,6 +145,6 @@ public class WebPageFileCacheTest {
         DomNodeList<DomElement> hrefs = page.getElementsByTagName("a");
         assertEquals(1, hrefs.size());
 
-        assertEquals("http://www.google.at/", ((HtmlAnchor)hrefs.get(0)).getHrefAttribute());
+        assertEquals("https://www.google.at/", ((HtmlAnchor)hrefs.get(0)).getHrefAttribute());
     }
 }

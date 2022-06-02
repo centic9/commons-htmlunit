@@ -23,6 +23,7 @@ public class FileLeakTest {
 
         try (CloseableHttpClient client = builder.build()) {
 
+            //noinspection HttpUrlsUsage
             HttpUriRequest httpMethod = new HttpGet("http://dstadler.org");
 
             final HttpHost hostConfiguration = new HttpHost("dstadler.org");

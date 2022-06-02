@@ -23,7 +23,7 @@ public class HtmlUnitUtils {
     }
 
     public static WebClient createWebClient(boolean enableJavaScript) {
-        return createWebClient(enableJavaScript, BrowserVersion.FIREFOX_78);
+        return createWebClient(enableJavaScript, BrowserVersion.FIREFOX_ESR);
     }
 
     public static WebClient createWebClient(boolean enableJavaScript, BrowserVersion browserVersion) {
