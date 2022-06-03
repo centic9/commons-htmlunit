@@ -24,7 +24,8 @@ dependencies {
     implementation 'com.google.guava:guava:31.1-jre'
 
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.dstadler:commons-test:1.0.0.19'
+    testImplementation 'org.dstadler:commons-test:1.0.0.20'
+    testImplementation 'org.dstadler:commons-dost:1.1.0.1'
 }
 
 wrapper {
