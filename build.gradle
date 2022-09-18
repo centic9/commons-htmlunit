@@ -20,7 +20,11 @@ repositories {
 }
 
 dependencies {
-    api 'net.sourceforge.htmlunit:htmlunit:2.62.0'
+    api ('net.sourceforge.htmlunit:htmlunit:2.64.0')
+    // Xalan has vulnerabilities, but excluding it causes missing classes
+    /*{
+        exclude group: 'xalan', module: 'xalan'
+    }*/
     implementation 'com.google.guava:guava:31.1-jre'
 
 	testImplementation 'org.junit.vintage:junit-vintage-engine:5.9.0'
