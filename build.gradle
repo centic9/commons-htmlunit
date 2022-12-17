@@ -20,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    api 'net.sourceforge.htmlunit:htmlunit:2.66.0'
+    api 'net.sourceforge.htmlunit:htmlunit:2.67.0'
     implementation 'com.google.guava:guava:31.1-jre'
 
 	testImplementation 'org.junit.vintage:junit-vintage-engine:5.9.1'
