@@ -1,3 +1,11 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'de.thetaphi:forbiddenapis:3.4'
+	}
+}
 plugins {
     id 'java-library'
 
@@ -6,6 +14,8 @@ plugins {
     id 'io.codearte.nexus-staging' version '0.30.0'
 }
 
+apply plugin: 'java'
+apply plugin: 'de.thetaphi.forbiddenapis'
 apply plugin: 'jacoco'
 apply plugin: 'maven'
 apply plugin: 'signing'
@@ -17,6 +27,15 @@ archivesBaseName = 'commons-htmlunit'
 
 repositories {
 	mavenCentral()
+}
+
+forbiddenApis {
+	suppressAnnotations = ['org.dstadler.commons.util.SuppressForbidden']
+	bundledSignatures = [ 'jdk-reflection', 'commons-io-unsafe-2.11.0', 'jdk-internal' ]
+}
+forbiddenApisMain {
+	// 'jdk-unsafe', 'jdk-system-out'
+	bundledSignatures += [ 'jdk-deprecated', 'jdk-internal', 'jdk-non-portable' ]
 }
 
 dependencies {
