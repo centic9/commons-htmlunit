@@ -6,6 +6,7 @@ buildscript {
         classpath 'de.thetaphi:forbiddenapis:3.4'
     }
 }
+
 plugins {
     id 'java-library'
     id 'maven-publish'
@@ -95,6 +96,7 @@ release {
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            artifactId = archivesBaseName
             from components.java
 
             pom {
