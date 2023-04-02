@@ -1,8 +1,8 @@
 package org.dstadler.htmlunit;
 
-import com.gargoylesoftware.htmlunit.*;
-import com.gargoylesoftware.htmlunit.html.*;
-import com.gargoylesoftware.htmlunit.util.WebConnectionWrapper;
+import org.htmlunit.*;
+import org.htmlunit.html.*;
+import org.htmlunit.util.WebConnectionWrapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dstadler.commons.http.NanoHTTPD;
@@ -84,7 +84,7 @@ public class HtmlUnitUtilsTest {
                 HtmlUnitUtils.getElementById(page, "testid", HtmlTextInput.class);
                 fail("Expected exception when using a non-matching element type");
             } catch (WrongElementException e) {
-                TestHelpers.assertContains(e, "Expected a field with id", "type com.gargoylesoftware.htmlunit.html.HtmlTextInput", "testid", "HtmlImage");
+                TestHelpers.assertContains(e, "Expected a field with id", "type org.htmlunit.html.HtmlTextInput", "testid", "HtmlImage");
             }
 
             assertNotNull(HtmlUnitUtils.getElementById(page, "testid", HtmlImage.class));
@@ -101,7 +101,7 @@ public class HtmlUnitUtilsTest {
                 HtmlUnitUtils.getElementByName(page, "testname", HtmlTextInput.class);
                 fail("Expected exception with non-matching type");
             } catch (WrongElementException e) {
-                TestHelpers.assertContains(e, "Expected a field with name", "type com.gargoylesoftware.htmlunit.html.HtmlTextInput", "testname", "HtmlImage");
+                TestHelpers.assertContains(e, "Expected a field with name", "type org.htmlunit.html.HtmlTextInput", "testname", "HtmlImage");
             }
 
 
@@ -175,7 +175,7 @@ public class HtmlUnitUtilsTest {
                 HtmlUnitUtils.getElementsByAttribute(page, "img", "id", "testid", HtmlTextInput.class);
                 fail("Expected exception when using a non-matching element type");
             } catch (WrongElementException e) {
-                TestHelpers.assertContains(e, "Expected a field with tag", "type com.gargoylesoftware.htmlunit.html.HtmlTextInput", "testid", "HtmlImage");
+                TestHelpers.assertContains(e, "Expected a field with tag", "type org.htmlunit.html.HtmlTextInput", "testid", "HtmlImage");
             }
 
             List<HtmlTextInput> inputElements = HtmlUnitUtils.getElementsByAttribute(page, "noimg", "noid", "testid", HtmlTextInput.class);
@@ -225,7 +225,7 @@ public class HtmlUnitUtilsTest {
                 HtmlUnitUtils.getElementsByTextContents(page, "form", "bla text1 bla", HtmlTextInput.class);
                 fail("Expected exception when using a non-matching element type");
             } catch (WrongElementException e) {
-                TestHelpers.assertContains(e, "Expected a field with tag", "type com.gargoylesoftware.htmlunit.html.HtmlTextInput", "text1", "HtmlForm");
+                TestHelpers.assertContains(e, "Expected a field with tag", "type org.htmlunit.html.HtmlTextInput", "text1", "HtmlForm");
             }
 
             List<HtmlImage> elementsByAttribute = HtmlUnitUtils.getElementsByTextContents(page, "img", "notfoundtext", HtmlImage.class);
@@ -313,21 +313,21 @@ public class HtmlUnitUtilsTest {
                 HtmlUnitUtils.getFormElementByName(form, "input1", HtmlImageInput.class);
                 fail("Expected exception when using a non-matching element type");
             } catch (WrongElementException e) {
-                TestHelpers.assertContains(e, "Expected a field with name", "type com.gargoylesoftware.htmlunit.html.HtmlImageInput", "input1", "HtmlTextInput");
+                TestHelpers.assertContains(e, "Expected a field with name", "type org.htmlunit.html.HtmlImageInput", "input1", "HtmlTextInput");
             }
 
             try {
                 HtmlUnitUtils.getFormElementByName(form, "duplicate", HtmlTextInput.class);
                 fail("Expected exception when having duplicate element");
             } catch (HtmlUnitException e) {
-                TestHelpers.assertContains(e, "Did find more than one element", "type com.gargoylesoftware.htmlunit.html.HtmlTextInput", "duplicate");
+                TestHelpers.assertContains(e, "Did find more than one element", "type org.htmlunit.html.HtmlTextInput", "duplicate");
             }
 
             try {
                 HtmlUnitUtils.getFormElementByName(form, "notexisting", HtmlImageInput.class);
                 fail("Expected exception when not finding the element");
             } catch (NoElementFoundException e) {
-                TestHelpers.assertContains(e, "Could not find", "type com.gargoylesoftware.htmlunit.html.HtmlImageInput", "notexisting");
+                TestHelpers.assertContains(e, "Could not find", "type org.htmlunit.html.HtmlImageInput", "notexisting");
             }
 
             verifier.addObject(page);
@@ -377,14 +377,14 @@ public class HtmlUnitUtilsTest {
                 HtmlUnitUtils.getFormElementByType(form, HtmlButtonInput.class);
                 fail("Expected exception when using a non-matching element type");
             } catch (NoElementFoundException e) {
-                TestHelpers.assertContains(e, "Could not find", "type com.gargoylesoftware.htmlunit.html.HtmlButtonInput");
+                TestHelpers.assertContains(e, "Could not find", "type org.htmlunit.html.HtmlButtonInput");
             }
 
             try {
                 HtmlUnitUtils.getFormElementByType(form, HtmlTextInput.class);
                 fail("Expected exception when having duplicate element");
             } catch (HtmlUnitException e) {
-                TestHelpers.assertContains(e, "Did find more than one element", "type com.gargoylesoftware.htmlunit.html.HtmlTextInput");
+                TestHelpers.assertContains(e, "Did find more than one element", "type org.htmlunit.html.HtmlTextInput");
             }
 
             verifier.addObject(page);
@@ -434,28 +434,28 @@ public class HtmlUnitUtilsTest {
                 HtmlUnitUtils.getFormElementByNameAndValue(form, "input1", "value1", HtmlImageInput.class);
                 fail("Expected exception when using a non-matching element type");
             } catch (WrongElementException e) {
-                TestHelpers.assertContains(e, "Expected a field with name", "type com.gargoylesoftware.htmlunit.html.HtmlImageInput", "input1", "value1", "HtmlTextInput");
+                TestHelpers.assertContains(e, "Expected a field with name", "type org.htmlunit.html.HtmlImageInput", "input1", "value1", "HtmlTextInput");
             }
 
             try {
                 HtmlUnitUtils.getFormElementByNameAndValue(form, "input1", "valuenotexisting", HtmlTextInput.class);
                 fail("Expected exception when using a non-matching element type");
             } catch (NoElementFoundException e) {
-                TestHelpers.assertContains(e, "Could not find", "type com.gargoylesoftware.htmlunit.html.HtmlTextInput", "input1", "valuenotexisting");
+                TestHelpers.assertContains(e, "Could not find", "type org.htmlunit.html.HtmlTextInput", "input1", "valuenotexisting");
             }
 
             try {
                 HtmlUnitUtils.getFormElementByNameAndValue(form, "duplicate", "value1", HtmlTextInput.class);
                 fail("Expected exception when having duplicate element");
             } catch (HtmlUnitException e) {
-                TestHelpers.assertContains(e, "Did find more than one element", "type com.gargoylesoftware.htmlunit.html.HtmlTextInput", "duplicate", "value1");
+                TestHelpers.assertContains(e, "Did find more than one element", "type org.htmlunit.html.HtmlTextInput", "duplicate", "value1");
             }
 
             try {
                 HtmlUnitUtils.getFormElementByNameAndValue(form, "notexisting", "value1", HtmlImageInput.class);
                 fail("Expected exception when not finding the element");
             } catch (NoElementFoundException e) {
-                TestHelpers.assertContains(e, "Could not find", "type com.gargoylesoftware.htmlunit.html.HtmlImageInput", "notexisting", "value1");
+                TestHelpers.assertContains(e, "Could not find", "type org.htmlunit.html.HtmlImageInput", "notexisting", "value1");
             }
 
             verifier.addObject(page);
@@ -540,7 +540,7 @@ public class HtmlUnitUtilsTest {
                 HtmlUnitUtils.getElementsByAttributeContains(page, "form", "name", "test", HtmlInlineFrame.class);
                 fail("Expected exception");
             } catch (WrongElementException e) {
-                TestHelpers.assertContains(e, "Expected a field with tag", "type com.gargoylesoftware.htmlunit.html.HtmlInlineFrame", "test", "HtmlForm");
+                TestHelpers.assertContains(e, "Expected a field with tag", "type org.htmlunit.html.HtmlInlineFrame", "test", "HtmlForm");
             }
 
             // none found with normal ByAttribute

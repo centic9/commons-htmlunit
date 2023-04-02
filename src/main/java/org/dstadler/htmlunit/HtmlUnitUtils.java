@@ -1,7 +1,7 @@
 package org.dstadler.htmlunit;
 
-import com.gargoylesoftware.htmlunit.*;
-import com.gargoylesoftware.htmlunit.html.*;
+import org.htmlunit.*;
+import org.htmlunit.html.*;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterators;
 import org.apache.commons.logging.Log;
