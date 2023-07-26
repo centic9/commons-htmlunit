@@ -40,7 +40,7 @@ dependencies {
     api 'org.htmlunit:htmlunit:3.3.0'
     implementation 'com.google.guava:guava:32.1.1-jre'
 
-    testImplementation 'org.junit.vintage:junit-vintage-engine:5.9.3'
+    testImplementation 'org.junit.vintage:junit-vintage-engine:5.10.0'
     testImplementation 'org.dstadler:commons-test:1.0.0.20'
     testImplementation 'org.dstadler:commons-dost:1.2.0.1'
 }
