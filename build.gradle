@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'de.thetaphi:forbiddenapis:3.5.1'
+        classpath 'de.thetaphi:forbiddenapis:3.6'
     }
 }
 
@@ -42,7 +42,7 @@ dependencies {
 
     testImplementation 'org.junit.vintage:junit-vintage-engine:5.10.0'
     testImplementation 'org.dstadler:commons-test:1.0.0.20'
-    testImplementation 'org.dstadler:commons-dost:1.2.0.2'
+    testImplementation 'org.dstadler:commons-dost:1.2.0.3'
 }
 
 wrapper {
