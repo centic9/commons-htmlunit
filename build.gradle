@@ -41,7 +41,7 @@ dependencies {
     implementation 'com.google.guava:guava:33.1.0-jre'
 
     testImplementation 'org.junit.vintage:junit-vintage-engine:5.10.2'
-    testImplementation 'org.dstadler:commons-test:1.0.0.20'
+    testImplementation 'org.dstadler:commons-test:1.0.0.21'
     testImplementation 'org.dstadler:commons-dost:1.3.2'
 }
 
