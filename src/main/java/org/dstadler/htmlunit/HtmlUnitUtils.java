@@ -35,7 +35,6 @@ public class HtmlUnitUtils {
         webClient.getOptions().setTimeout(60000);
         webClient.getOptions().setJavaScriptEnabled(enableJavaScript);
         webClient.getOptions().setCssEnabled(false);
-        webClient.getOptions().setAppletEnabled(false);
         webClient.getOptions().setRedirectEnabled(true); // follow old-school HTTP 302 redirects - standard behaviour
 
         webClient.setHTMLParserListener(null);

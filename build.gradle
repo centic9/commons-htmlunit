@@ -37,7 +37,7 @@ forbiddenApisMain {
 }
 
 dependencies {
-    api 'org.htmlunit:htmlunit:3.11.0'
+    api 'org.htmlunit:htmlunit:4.2.0'
     implementation 'com.google.guava:guava:33.2.1-jre'
 
     testImplementation 'org.junit.vintage:junit-vintage-engine:5.10.2'
