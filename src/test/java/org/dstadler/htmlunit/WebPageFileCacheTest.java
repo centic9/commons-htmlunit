@@ -8,14 +8,14 @@ import org.htmlunit.html.HtmlPage;
 import org.dstadler.commons.http.NanoHTTPD;
 import org.dstadler.commons.testing.MemoryLeakVerifier;
 import org.dstadler.commons.testing.MockRESTServer;
-import org.junit.After;
-import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 public class WebPageFileCacheTest {
@@ -23,7 +23,7 @@ public class WebPageFileCacheTest {
 
     private final MemoryLeakVerifier verifier = new MemoryLeakVerifier();
 
-    @After
+    @AfterEach
     public void tearDown() {
         verifier.assertGarbageCollected();
     }
@@ -74,8 +74,8 @@ public class WebPageFileCacheTest {
 
             verifier.addObject(page);
         } catch (IOException e) {
-            Assume.assumeFalse("This test fails with 503 HTTP on Travis-CI",
-                    "true".equals(System.getenv("TRAVIS")) && e.getMessage().contains("503 Service Unavailable"));
+            Assumptions.assumeFalse("true".equals(System.getenv("TRAVIS")) && e.getMessage().contains("503 Service Unavailable"),
+                    "This test fails with 503 HTTP on Travis-CI");
 
             throw e;
         }
@@ -103,8 +103,8 @@ public class WebPageFileCacheTest {
 
             verifier.addObject(page);
         } catch (IOException e) {
-            Assume.assumeFalse("This test fails with 503 HTTP on Travis-CI",
-                    "true".equals(System.getenv("TRAVIS")) && e.getMessage().contains("503 Service Unavailable"));
+            Assumptions.assumeFalse("true".equals(System.getenv("TRAVIS")) && e.getMessage().contains("503 Service Unavailable"),
+                    "This test fails with 503 HTTP on Travis-CI");
 
             throw e;
         }

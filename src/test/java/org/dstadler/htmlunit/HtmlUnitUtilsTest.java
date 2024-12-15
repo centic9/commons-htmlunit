@@ -11,11 +11,10 @@ import org.dstadler.commons.testing.MemoryLeakVerifier;
 import org.dstadler.commons.testing.MockRESTServer;
 import org.dstadler.commons.testing.PrivateConstructorCoverage;
 import org.dstadler.commons.testing.TestHelpers;
-import org.junit.After;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,31 +23,27 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(Parameterized.class)
 public class HtmlUnitUtilsTest {
     private static final Log logger = LogFactory.getLog(HtmlUnitUtilsTest.class);
 
-    @Parameterized.Parameters(name = "Debug-Log: {0}")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
                 { Boolean.TRUE }, { Boolean.FALSE }
         });
     }
 
-    @Parameterized.Parameter
-    public Boolean enableJavascript;
-
     private final MemoryLeakVerifier verifier = new MemoryLeakVerifier();
 
-    @After
+    @AfterEach
     public void tearDown() {
         verifier.assertGarbageCollected();
     }
 
-    @Test
-    public void testGetElementById() throws Exception {
+    @MethodSource("data")
+    @ParameterizedTest(name = "Debug-Log: {0}")
+    public void testGetElementById(Boolean enableJavascript) throws Exception {
         int port = SocketUtils.getNextFreePort(8000, 9000);
 
         NanoHTTPD server = new NanoHTTPD(port) {
@@ -109,8 +104,8 @@ public class HtmlUnitUtilsTest {
 
 
             // verify forms
-            assertNotNull("Should find element in existing form",
-                    HtmlUnitUtils.getFormElementByType(page, "testform", HtmlImageInput.class));
+            assertNotNull(HtmlUnitUtils.getFormElementByType(page, "testform", HtmlImageInput.class),
+                    "Should find element in existing form");
 
             try {
                 // fails for form that does not exist
@@ -144,8 +139,9 @@ public class HtmlUnitUtilsTest {
         verifier.addObject(server);
     }
 
-    @Test
-    public void testGetElementByAttribute() throws Exception {
+    @MethodSource("data")
+    @ParameterizedTest(name = "Debug-Log: {0}")
+    public void testGetElementByAttribute(Boolean enableJavascript) throws Exception {
         int port = SocketUtils.getNextFreePort(8000, 9000);
 
         NanoHTTPD server = new NanoHTTPD(port) {
@@ -169,7 +165,7 @@ public class HtmlUnitUtilsTest {
             // not found with invalid content
             List<HtmlElement> elements = HtmlUnitUtils.getElementsByAttribute(page, "img", "id", "nonexistingid", HtmlElement.class);
             assertNotNull(elements);
-            assertTrue("Had: " + elements, elements.isEmpty());
+            assertTrue(elements.isEmpty(), "Had: " + elements);
 
             try {
                 HtmlUnitUtils.getElementsByAttribute(page, "img", "id", "testid", HtmlTextInput.class);
@@ -179,13 +175,13 @@ public class HtmlUnitUtilsTest {
             }
 
             List<HtmlTextInput> inputElements = HtmlUnitUtils.getElementsByAttribute(page, "noimg", "noid", "testid", HtmlTextInput.class);
-            assertTrue("Did not expect any elements, but had " + inputElements, inputElements.isEmpty());
+            assertTrue(inputElements.isEmpty(), "Did not expect any elements, but had " + inputElements);
 
 
             // found with correct content
             List<HtmlImage> elementsByAttribute = HtmlUnitUtils.getElementsByAttribute(page, "img", "id", "testid", HtmlImage.class);
             assertNotNull(elementsByAttribute);
-            assertFalse("Had: " + elementsByAttribute, elementsByAttribute.isEmpty());
+            assertFalse(elementsByAttribute.isEmpty(), "Had: " + elementsByAttribute);
 
             verifier.addObject(page);
         } finally {
@@ -195,8 +191,9 @@ public class HtmlUnitUtilsTest {
         verifier.addObject(server);
     }
 
-    @Test
-    public void testGetElementByTextContains() throws Exception {
+    @MethodSource("data")
+    @ParameterizedTest(name = "Debug-Log: {0}")
+    public void testGetElementByTextContains(Boolean enableJavascript) throws Exception {
         int port = SocketUtils.getNextFreePort(8000, 9000);
 
         NanoHTTPD server = new NanoHTTPD(port) {
@@ -219,7 +216,7 @@ public class HtmlUnitUtilsTest {
 
             List<HtmlElement> elements = HtmlUnitUtils.getElementsByTextContents(page, "form", "bla text1 bla", HtmlElement.class);
             assertNotNull(elements);
-            assertFalse("Had: " + elements, elements.isEmpty());
+            assertFalse(elements.isEmpty(), "Had: " + elements);
 
             try {
                 HtmlUnitUtils.getElementsByTextContents(page, "form", "bla text1 bla", HtmlTextInput.class);
@@ -230,7 +227,7 @@ public class HtmlUnitUtilsTest {
 
             List<HtmlImage> elementsByAttribute = HtmlUnitUtils.getElementsByTextContents(page, "img", "notfoundtext", HtmlImage.class);
             assertNotNull(elementsByAttribute);
-            assertTrue("Had: " + elementsByAttribute, elementsByAttribute.isEmpty());
+            assertTrue(elementsByAttribute.isEmpty(), "Had: " + elementsByAttribute);
 
             verifier.addObject(page);
         } finally {
@@ -240,8 +237,9 @@ public class HtmlUnitUtilsTest {
         verifier.addObject(server);
     }
 
-    @Test
-    public void testGetFailingStatus() throws Exception {
+    @MethodSource("data")
+    @ParameterizedTest(name = "Debug-Log: {0}")
+    public void testGetFailingStatus(Boolean enableJavascript) throws Exception {
         int port = SocketUtils.getNextFreePort(8000, 9000);
 
         NanoHTTPD server = new NanoHTTPD(port) {
@@ -270,13 +268,15 @@ public class HtmlUnitUtilsTest {
     }
 
     // helper method to get coverage of the unused constructor
-    @Test
-    public void testPrivateConstructor() throws Exception {
+    @MethodSource("data")
+    @ParameterizedTest(name = "Debug-Log: {0}")
+    public void testPrivateConstructor(Boolean enableJavascript) throws Exception {
         PrivateConstructorCoverage.executePrivateConstructor(HtmlUnitUtils.class);
     }
 
-    @Test
-    public void testGetFormElementByName() throws Exception {
+    @MethodSource("data")
+    @ParameterizedTest(name = "Debug-Log: {0}")
+    public void testGetFormElementByName(Boolean enableJavascript) throws Exception {
         int port = SocketUtils.getNextFreePort(8000, 9000);
 
         NanoHTTPD server = new NanoHTTPD(port) {
@@ -338,8 +338,9 @@ public class HtmlUnitUtilsTest {
         verifier.addObject(server);
     }
 
-    @Test
-    public void testGetFormElementByType() throws Exception {
+    @MethodSource("data")
+    @ParameterizedTest(name = "Debug-Log: {0}")
+    public void testGetFormElementByType(Boolean enableJavascript) throws Exception {
         int port = SocketUtils.getNextFreePort(8000, 9000);
 
         NanoHTTPD server = new NanoHTTPD(port) {
@@ -395,8 +396,9 @@ public class HtmlUnitUtilsTest {
         verifier.addObject(server);
     }
 
-    @Test
-    public void testGetFormElementByNameAndValue() throws Exception {
+    @MethodSource("data")
+    @ParameterizedTest(name = "Debug-Log: {0}")
+    public void testGetFormElementByNameAndValue(Boolean enableJavascript) throws Exception {
         int port = SocketUtils.getNextFreePort(8000, 9000);
 
         NanoHTTPD server = new NanoHTTPD(port) {
@@ -466,8 +468,9 @@ public class HtmlUnitUtilsTest {
         verifier.addObject(server);
     }
 
-    @Test
-    public void testGetFormByAction() throws Exception {
+    @MethodSource("data")
+    @ParameterizedTest(name = "Debug-Log: {0}")
+    public void testGetFormByAction(Boolean enableJavascript) throws Exception {
         int port = SocketUtils.getNextFreePort(8000, 9000);
 
         NanoHTTPD server = new NanoHTTPD(port) {
@@ -509,8 +512,9 @@ public class HtmlUnitUtilsTest {
         verifier.addObject(server);
     }
 
-    @Test
-    public void testGetElementByAttributeContains() throws Exception {
+    @MethodSource("data")
+    @ParameterizedTest(name = "Debug-Log: {0}")
+    public void testGetElementByAttributeContains(Boolean enableJavascript) throws Exception {
         int port = SocketUtils.getNextFreePort(8000, 9000);
 
         NanoHTTPD server = new NanoHTTPD(port) {
@@ -534,7 +538,7 @@ public class HtmlUnitUtilsTest {
             // get by attribute
             List<HtmlElement> elements = HtmlUnitUtils.getElementsByAttributeContains(page, "img", "id", "nonexistingid", HtmlElement.class);
             assertNotNull(elements);
-            assertEquals("Had: " + elements, 0, elements.size());
+            assertEquals(0, elements.size(), "Had: " + elements);
 
             try {
                 HtmlUnitUtils.getElementsByAttributeContains(page, "form", "name", "test", HtmlInlineFrame.class);
@@ -546,12 +550,12 @@ public class HtmlUnitUtilsTest {
             // none found with normal ByAttribute
             HtmlUnitUtils.getElementsByAttribute(page, "img", "id", "testid", HtmlImage.class);
             assertNotNull(elements);
-            assertEquals("Had: " + elements, 0, elements.size());
+            assertEquals(0, elements.size(), "Had: " + elements);
 
             // element found with ByAttributeContains
             List<HtmlImage> elementsByAttribute = HtmlUnitUtils.getElementsByAttributeContains(page, "img", "id", "testid", HtmlImage.class);
             assertNotNull(elementsByAttribute);
-            assertFalse("Had: " + elementsByAttribute, elementsByAttribute.isEmpty());
+            assertFalse(elementsByAttribute.isEmpty(), "Had: " + elementsByAttribute);
 
             verifier.addObject(page);
         } finally {
@@ -561,8 +565,9 @@ public class HtmlUnitUtilsTest {
         verifier.addObject(server);
     }
 
-    @Test
-    public void testMemoryLeak() throws IOException {
+    @MethodSource("data")
+    @ParameterizedTest(name = "Debug-Log: {0}")
+    public void testMemoryLeak(Boolean enableJavascript) throws IOException {
         try (WebClient webClient = HtmlUnitUtils.createWebClient(false)) {
             verifier.addObject(webClient);
 
@@ -586,18 +591,20 @@ public class HtmlUnitUtilsTest {
         }
     }
 
-    @Ignore("Should not run always")
-    @Test
-    public void testMemoryLeakLoop() throws IOException {
+    @Disabled("Should not run always")
+    @MethodSource("data")
+    @ParameterizedTest(name = "Debug-Log: {0}")
+    public void testMemoryLeakLoop(Boolean enableJavascript) throws IOException {
         for(int i = 0;i < 1000;i++) {
-            testMemoryLeak();
+            testMemoryLeak(enableJavascript);
         }
 
         logger.info("Debug here and check for remaining memory after close was called");
     }
 
-    @Test
-    public void testWaitForText() throws Exception {
+    @MethodSource("data")
+    @ParameterizedTest(name = "Debug-Log: {0}")
+    public void testWaitForText(Boolean enableJavascript) throws Exception {
         try (WebClient webClient = HtmlUnitUtils.createWebClient(false)) {
             verifier.addObject(webClient);
 
@@ -609,8 +616,9 @@ public class HtmlUnitUtilsTest {
         }
     }
 
-    @Test
-    public void testWaitForTextNotFound() throws Exception {
+    @MethodSource("data")
+    @ParameterizedTest(name = "Debug-Log: {0}")
+    public void testWaitForTextNotFound(Boolean enableJavascript) throws Exception {
         try (WebClient webClient = HtmlUnitUtils.createWebClient(false)) {
             verifier.addObject(webClient);
 
@@ -627,16 +635,18 @@ public class HtmlUnitUtilsTest {
         }
     }
 
-    @Test
-    public void testCreate() {
+    @MethodSource("data")
+    @ParameterizedTest(name = "Debug-Log: {0}")
+    public void testCreate(Boolean enableJavascript) {
         // cover the create() without parameter as well
         try (WebClient webClient = HtmlUnitUtils.createWebClient()) {
             assertNotNull(webClient);
         }
     }
 
-    @Test
-    public void testWaitForJavaScript() {
+    @MethodSource("data")
+    @ParameterizedTest(name = "Debug-Log: {0}")
+    public void testWaitForJavaScript(Boolean enableJavascript) {
         try (WebClient webClient = HtmlUnitUtils.createWebClient()) {
             HtmlUnitUtils.waitForJavascript(webClient, 0);
             HtmlUnitUtils.waitForJavascript(webClient, 10);
