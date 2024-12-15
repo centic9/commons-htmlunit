@@ -339,7 +339,7 @@ public class HtmlUnitUtils {
 
     /**
      * Call {@link WebClient#waitForBackgroundJavaScript(long)} with
-     * 1 second delay until it returns 0 or the given number of seconds
+     * 1-second delay until it returns 0 or the given number of seconds
      * has passed.
      *
      * @param client The WebClient to call.

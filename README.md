@@ -38,7 +38,7 @@ Here an (incomplete) list of bits and pieces in this lib:
     ./gradlew --console=plain release && ./gradlew closeAndReleaseRepository
 
 * This should automatically release the new version on MavenCentral
-* Afterwards go to the [Github releases page](https://github.com/centic9/commons-htmlunit/releases) and add release-notes
+* Afterwards go to the [GitHub releases page](https://github.com/centic9/commons-htmlunit/releases) and add release-notes
 
 ## Support this project
 
