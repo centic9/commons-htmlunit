@@ -25,7 +25,9 @@ java {
   }
 }
 group = 'org.dstadler'
-archivesBaseName = 'commons-htmlunit'
+base {
+    archivesName = 'commons-htmlunit'
+}
 
 repositories {
     mavenCentral()
@@ -41,7 +43,7 @@ forbiddenApisMain {
 }
 
 dependencies {
-    api 'org.htmlunit:htmlunit:4.12.0'
+    api 'org.htmlunit:htmlunit:4.13.0'
     implementation 'com.google.guava:guava:33.4.8-jre'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.13.1'
