@@ -52,7 +52,7 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.13.4'
 
     testImplementation 'org.dstadler:commons-test:1.0.0.22'
-    testImplementation 'org.dstadler:commons-dost:1.4.2'
+    testImplementation 'org.dstadler:commons-dost:1.4.3'
 }
 
 wrapper {
