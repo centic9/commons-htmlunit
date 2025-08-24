@@ -43,7 +43,7 @@ forbiddenApisMain {
 }
 
 dependencies {
-    api 'org.htmlunit:htmlunit:4.13.0'
+    api 'org.htmlunit:htmlunit:4.15.0'
     implementation 'com.google.guava:guava:33.4.8-jre'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.13.4'
@@ -56,7 +56,7 @@ dependencies {
 }
 
 wrapper {
-    gradleVersion = '8.14.2'
+    gradleVersion = '8.14.3'
 }
 
 test {
