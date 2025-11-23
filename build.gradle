@@ -43,7 +43,7 @@ forbiddenApisMain {
 }
 
 dependencies {
-    api 'org.htmlunit:htmlunit:4.17.0'
+    api 'org.htmlunit:htmlunit:4.18.0'
     implementation 'com.google.guava:guava:33.5.0-jre'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:6.0.0'
