@@ -1,15 +1,15 @@
 package org.dstadler.htmlunit;
 
-import org.htmlunit.WebClient;
-import org.htmlunit.html.HtmlPage;
-import com.google.common.base.Charsets;
 import com.google.common.hash.Hashing;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.htmlunit.WebClient;
+import org.htmlunit.html.HtmlPage;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 
 
@@ -61,6 +61,6 @@ public class WebPageFileCache {
 
     private static String stripUrl(String url) {
         // use hashing to avoid filenames becoming too long or containing special characters
-        return Hashing.murmur3_128().hashString(url, Charsets.UTF_8).toString();
+        return Hashing.murmur3_128().hashString(url, StandardCharsets.UTF_8).toString();
     }
 }
