@@ -21,7 +21,7 @@ apply plugin: 'signing'
 
 java {
     toolchain {
-        sourceCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
     }
 }
 
@@ -44,7 +44,7 @@ forbiddenApisMain {
 }
 
 dependencies {
-    api 'org.htmlunit:htmlunit:4.18.0'
+    api 'org.htmlunit:htmlunit:4.20.0'
     implementation 'com.google.guava:guava:33.5.0-jre'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:6.0.1'
@@ -98,8 +98,8 @@ tasks.register('javadocJar', Jar) {
 
 tasks.withType(Jar).configureEach { task ->
     task.doLast {
-        ant.checksum algorithm: 'md5', file: it.archivePath
-        ant.checksum algorithm: 'sha1', file: it.archivePath
+        ant.checksum algorithm: 'md5', file: it.archiveFile.get().asFile
+        ant.checksum algorithm: 'sha1', file: it.archiveFile.get().asFile
     }
 }
 
