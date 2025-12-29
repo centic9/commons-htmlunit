@@ -8,6 +8,8 @@ import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.protocol.HttpContext;
+import org.dstadler.commons.testing.MemoryLeakVerifier;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -16,6 +18,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class FileLeakTest {
+
+    private final MemoryLeakVerifier verifier = new MemoryLeakVerifier();
+
+    @AfterEach
+    public void tearDown() {
+        verifier.assertGarbageCollected();
+    }
+
     @Test
     public void testDefaultHttpClientConnectionOperator() throws IOException {
         final HttpClientBuilder builder = HttpClientBuilder.create();
@@ -32,6 +42,12 @@ public class FileLeakTest {
 
             assertNotNull(httpResponse);
             assertEquals(200, httpResponse.getStatusLine().getStatusCode());
+
+            verifier.addObject(builder);
+            verifier.addObject(client);
+            verifier.addObject(httpMethod);
+            verifier.addObject(hostConfiguration);
+            verifier.addObject(httpResponse);
         }
     }
 }

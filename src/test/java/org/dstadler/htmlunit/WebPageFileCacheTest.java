@@ -145,6 +145,6 @@ public class WebPageFileCacheTest {
         DomNodeList<DomElement> hrefs = page.getElementsByTagName("a");
         assertEquals(1, hrefs.size());
 
-        assertEquals("https://www.google.at/", ((HtmlAnchor)hrefs.get(0)).getHrefAttribute());
+        assertEquals("https://www.google.at/", ((HtmlAnchor)hrefs.getFirst()).getHrefAttribute());
     }
 }
