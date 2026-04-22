@@ -25,3 +25,6 @@ build/
 
 # IntelliJ
 /out/
+
+# Claude Code
+.claude/
