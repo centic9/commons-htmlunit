@@ -225,7 +225,7 @@ public class HtmlUnitUtils {
         }
 
         if(element == null) {
-            logger.warn("Form contents (" + form.asXml());
+            logger.warn("Form contents: " + form.asXml());
             throw new NoElementFoundException("Could not find element with name " + name + " of type " + type.getName() + " in form '" + form.getNameAttribute());
         }
 
@@ -259,7 +259,7 @@ public class HtmlUnitUtils {
         }
 
         if(element == null) {
-            logger.warn("Form contents (" + form.asXml());
+            logger.warn("Form contents: " + form.asXml());
             throw new NoElementFoundException("Could not find element with name " + name + ", value " + value + " of type " + type.getName() + " in form '" + form.getNameAttribute());
         }
 
@@ -293,7 +293,7 @@ public class HtmlUnitUtils {
         }
 
         if(element == null) {
-            logger.warn("Form contents (" + form.asXml());
+            logger.warn("Form contents: " + form.asXml());
             throw new NoElementFoundException("Could not find element of type " + type.getName() + " in form '" + form.getNameAttribute());
         }
 
