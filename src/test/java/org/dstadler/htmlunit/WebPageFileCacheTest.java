@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 public class WebPageFileCacheTest {
-    private static final String AMAZON_URL = "https://www.amazon.de/dp/B009S4DVI2";
+    private static final String AMAZON_URL = "https://www.amazon.de/dp/B001AXJSKO";
 
     private final MemoryLeakVerifier verifier = new MemoryLeakVerifier();
 
@@ -92,12 +92,12 @@ public class WebPageFileCacheTest {
             cache.clear();
 
             // load the file the first time
-            HtmlPage page = cache.handle(webClient, "https://www.amazon.de/Tr%C3%A4umeland-T015231-Babymatratze-Fr%C3%BChlingsluft-wei%C3%9F/dp/B009S4DVI2/ref=sr_1_1/261-6670114-6177027?ie=UTF8&amp;qid=1546893038&amp;sr=8-1&amp;keywords=tr%C3%A4umeland%2BFr%C3%BChlingsluft");
+            HtmlPage page = cache.handle(webClient, "https://www.amazon.de/Tr%C3%A4umeland-T015202-Brise-70-140/dp/B001AXFZ74");
             //checkAmazon(page);
             assertNotNull(page);
 
             // load a second time, now from the cache
-            page = cache.handle(webClient, "https://www.amazon.de/Tr%C3%A4umeland-T015231-Babymatratze-Fr%C3%BChlingsluft-wei%C3%9F/dp/B009S4DVI2/ref=sr_1_1/261-6670114-6177027?ie=UTF8&amp;qid=1546893038&amp;sr=8-1&amp;keywords=tr%C3%A4umeland%2BFr%C3%BChlingsluft");
+            page = cache.handle(webClient, "https://www.amazon.de/Tr%C3%A4umeland-T015202-Brise-70-140/dp/B001AXJSKO");
             //checkAmazon(page);
             assertNotNull(page);
 
