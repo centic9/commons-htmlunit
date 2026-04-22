@@ -68,36 +68,28 @@ public class HtmlUnitUtilsTest {
             HtmlPage page = HtmlUnitUtils.getInitialPage(client, "http://localhost:" + port);
 
             // get by id
-            try {
-                HtmlUnitUtils.getElementById(page, "nonexistingid", HtmlElement.class);
-                fail("Expected exception when looking for a non-existing id");
-            } catch (NoElementFoundException e) {
-                TestHelpers.assertContains(e, "Could not find element", "nonexistingid");
-            }
+            TestHelpers.assertContains(
+                    assertThrows(NoElementFoundException.class,
+                            () -> HtmlUnitUtils.getElementById(page, "nonexistingid", HtmlElement.class)),
+                    "Could not find element", "nonexistingid");
 
-            try {
-                HtmlUnitUtils.getElementById(page, "testid", HtmlTextInput.class);
-                fail("Expected exception when using a non-matching element type");
-            } catch (WrongElementException e) {
-                TestHelpers.assertContains(e, "Expected a field with id", "type org.htmlunit.html.HtmlTextInput", "testid", "HtmlImage");
-            }
+            TestHelpers.assertContains(
+                    assertThrows(WrongElementException.class,
+                            () -> HtmlUnitUtils.getElementById(page, "testid", HtmlTextInput.class)),
+                    "Expected a field with id", "type org.htmlunit.html.HtmlTextInput", "testid", "HtmlImage");
 
             assertNotNull(HtmlUnitUtils.getElementById(page, "testid", HtmlImage.class));
 
             // get by name
-            try {
-                HtmlUnitUtils.getElementByName(page, "nonexistingname", HtmlElement.class);
-                fail("Expected exception");
-            } catch (NoElementFoundException e) {
-                TestHelpers.assertContains(e, "nonexistingname");
-            }
+            TestHelpers.assertContains(
+                    assertThrows(NoElementFoundException.class,
+                            () -> HtmlUnitUtils.getElementByName(page, "nonexistingname", HtmlElement.class)),
+                    "nonexistingname");
 
-            try {
-                HtmlUnitUtils.getElementByName(page, "testname", HtmlTextInput.class);
-                fail("Expected exception with non-matching type");
-            } catch (WrongElementException e) {
-                TestHelpers.assertContains(e, "Expected a field with name", "type org.htmlunit.html.HtmlTextInput", "testname", "HtmlImage");
-            }
+            TestHelpers.assertContains(
+                    assertThrows(WrongElementException.class,
+                            () -> HtmlUnitUtils.getElementByName(page, "testname", HtmlTextInput.class)),
+                    "Expected a field with name", "type org.htmlunit.html.HtmlTextInput", "testname", "HtmlImage");
 
 
             assertNotNull(HtmlUnitUtils.getElementByName(page, "testname", HtmlImage.class));
@@ -107,29 +99,23 @@ public class HtmlUnitUtilsTest {
             assertNotNull(HtmlUnitUtils.getFormElementByType(page, "testform", HtmlImageInput.class),
                     "Should find element in existing form");
 
-            try {
-                // fails for form that does not exist
-                HtmlUnitUtils.getFormElementByType(page, "notexistingform", HtmlImageInput.class);
-                fail("Expected exception");
-            } catch (NoElementFoundException e) {
-                TestHelpers.assertContains(e, "notexistingform");
-            }
+            // fails for form that does not exist
+            TestHelpers.assertContains(
+                    assertThrows(NoElementFoundException.class,
+                            () -> HtmlUnitUtils.getFormElementByType(page, "notexistingform", HtmlImageInput.class)),
+                    "notexistingform");
 
-            try {
-                // fails for type that is not found
-                HtmlUnitUtils.getFormElementByType(page, "testform", HtmlRadioButtonInput.class);
-                fail("Expected exception");
-            } catch (NoElementFoundException e) {
-                TestHelpers.assertContains(e, "Could not find element of type", "HtmlRadioButtonInput");
-            }
+            // fails for type that is not found
+            TestHelpers.assertContains(
+                    assertThrows(NoElementFoundException.class,
+                            () -> HtmlUnitUtils.getFormElementByType(page, "testform", HtmlRadioButtonInput.class)),
+                    "Could not find element of type", "HtmlRadioButtonInput");
 
-            try {
-                // fails for type that is available multiple times
-                HtmlUnitUtils.getFormElementByType(page, "testform", HtmlTextInput.class);
-                fail("Expected exception");
-            } catch (HtmlUnitException e) {
-                TestHelpers.assertContains(e, "Did find more than one element", "HtmlTextInput");
-            }
+            // fails for type that is available multiple times
+            TestHelpers.assertContains(
+                    assertThrows(HtmlUnitException.class,
+                            () -> HtmlUnitUtils.getFormElementByType(page, "testform", HtmlTextInput.class)),
+                    "Did find more than one element", "HtmlTextInput");
 
             verifier.addObject(page);
         } finally {
@@ -167,12 +153,10 @@ public class HtmlUnitUtilsTest {
             assertNotNull(elements);
             assertTrue(elements.isEmpty(), "Had: " + elements);
 
-            try {
-                HtmlUnitUtils.getElementsByAttribute(page, "img", "id", "testid", HtmlTextInput.class);
-                fail("Expected exception when using a non-matching element type");
-            } catch (WrongElementException e) {
-                TestHelpers.assertContains(e, "Expected a field with tag", "type org.htmlunit.html.HtmlTextInput", "testid", "HtmlImage");
-            }
+            TestHelpers.assertContains(
+                    assertThrows(WrongElementException.class,
+                            () -> HtmlUnitUtils.getElementsByAttribute(page, "img", "id", "testid", HtmlTextInput.class)),
+                    "Expected a field with tag", "type org.htmlunit.html.HtmlTextInput", "testid", "HtmlImage");
 
             List<HtmlTextInput> inputElements = HtmlUnitUtils.getElementsByAttribute(page, "noimg", "noid", "testid", HtmlTextInput.class);
             assertTrue(inputElements.isEmpty(), "Did not expect any elements, but had " + inputElements);
@@ -218,12 +202,10 @@ public class HtmlUnitUtilsTest {
             assertNotNull(elements);
             assertFalse(elements.isEmpty(), "Had: " + elements);
 
-            try {
-                HtmlUnitUtils.getElementsByTextContents(page, "form", "bla text1 bla", HtmlTextInput.class);
-                fail("Expected exception when using a non-matching element type");
-            } catch (WrongElementException e) {
-                TestHelpers.assertContains(e, "Expected a field with tag", "type org.htmlunit.html.HtmlTextInput", "text1", "HtmlForm");
-            }
+            TestHelpers.assertContains(
+                    assertThrows(WrongElementException.class,
+                            () -> HtmlUnitUtils.getElementsByTextContents(page, "form", "bla text1 bla", HtmlTextInput.class)),
+                    "Expected a field with tag", "type org.htmlunit.html.HtmlTextInput", "text1", "HtmlForm");
 
             List<HtmlImage> elementsByAttribute = HtmlUnitUtils.getElementsByTextContents(page, "img", "notfoundtext", HtmlImage.class);
             assertNotNull(elementsByAttribute);
@@ -254,12 +236,10 @@ public class HtmlUnitUtilsTest {
             // set empty proxy for localhost
             client.getOptions().setProxyConfig(new ProxyConfig());
 
-            try {
-                HtmlUnitUtils.getInitialPage(client, "http://localhost:" + port);
-                fail("Should have caught an exception");
-            } catch (IOException e) {
-                TestHelpers.assertContains(e, "FailingHttpStatusCodeException", Integer.toString(port), "localhost");
-            }
+            TestHelpers.assertContains(
+                    assertThrows(IOException.class,
+                            () -> HtmlUnitUtils.getInitialPage(client, "http://localhost:" + port)),
+                    "FailingHttpStatusCodeException", Integer.toString(port), "localhost");
         } finally {
             server.stop();
         }
@@ -309,26 +289,20 @@ public class HtmlUnitUtilsTest {
             assertNotNull(element);
             assertEquals("value1", element.getText());
 
-            try {
-                HtmlUnitUtils.getFormElementByName(form, "input1", HtmlImageInput.class);
-                fail("Expected exception when using a non-matching element type");
-            } catch (WrongElementException e) {
-                TestHelpers.assertContains(e, "Expected a field with name", "type org.htmlunit.html.HtmlImageInput", "input1", "HtmlTextInput");
-            }
+            TestHelpers.assertContains(
+                    assertThrows(WrongElementException.class,
+                            () -> HtmlUnitUtils.getFormElementByName(form, "input1", HtmlImageInput.class)),
+                    "Expected a field with name", "type org.htmlunit.html.HtmlImageInput", "input1", "HtmlTextInput");
 
-            try {
-                HtmlUnitUtils.getFormElementByName(form, "duplicate", HtmlTextInput.class);
-                fail("Expected exception when having duplicate element");
-            } catch (HtmlUnitException e) {
-                TestHelpers.assertContains(e, "Did find more than one element", "type org.htmlunit.html.HtmlTextInput", "duplicate");
-            }
+            TestHelpers.assertContains(
+                    assertThrows(HtmlUnitException.class,
+                            () -> HtmlUnitUtils.getFormElementByName(form, "duplicate", HtmlTextInput.class)),
+                    "Did find more than one element", "type org.htmlunit.html.HtmlTextInput", "duplicate");
 
-            try {
-                HtmlUnitUtils.getFormElementByName(form, "notexisting", HtmlImageInput.class);
-                fail("Expected exception when not finding the element");
-            } catch (NoElementFoundException e) {
-                TestHelpers.assertContains(e, "Could not find", "type org.htmlunit.html.HtmlImageInput", "notexisting");
-            }
+            TestHelpers.assertContains(
+                    assertThrows(NoElementFoundException.class,
+                            () -> HtmlUnitUtils.getFormElementByName(form, "notexisting", HtmlImageInput.class)),
+                    "Could not find", "type org.htmlunit.html.HtmlImageInput", "notexisting");
 
             verifier.addObject(page);
         } finally {
@@ -374,19 +348,15 @@ public class HtmlUnitUtilsTest {
             assertEquals("value2", element.getText());
             assertEquals("name2", element.getNameAttribute());
 
-            try {
-                HtmlUnitUtils.getFormElementByType(form, HtmlButtonInput.class);
-                fail("Expected exception when using a non-matching element type");
-            } catch (NoElementFoundException e) {
-                TestHelpers.assertContains(e, "Could not find", "type org.htmlunit.html.HtmlButtonInput");
-            }
+            TestHelpers.assertContains(
+                    assertThrows(NoElementFoundException.class,
+                            () -> HtmlUnitUtils.getFormElementByType(form, HtmlButtonInput.class)),
+                    "Could not find", "type org.htmlunit.html.HtmlButtonInput");
 
-            try {
-                HtmlUnitUtils.getFormElementByType(form, HtmlTextInput.class);
-                fail("Expected exception when having duplicate element");
-            } catch (HtmlUnitException e) {
-                TestHelpers.assertContains(e, "Did find more than one element", "type org.htmlunit.html.HtmlTextInput");
-            }
+            TestHelpers.assertContains(
+                    assertThrows(HtmlUnitException.class,
+                            () -> HtmlUnitUtils.getFormElementByType(form, HtmlTextInput.class)),
+                    "Did find more than one element", "type org.htmlunit.html.HtmlTextInput");
 
             verifier.addObject(page);
         } finally {
@@ -432,33 +402,25 @@ public class HtmlUnitUtilsTest {
             assertNotNull(element);
             assertEquals("value1", element.getText());
 
-            try {
-                HtmlUnitUtils.getFormElementByNameAndValue(form, "input1", "value1", HtmlImageInput.class);
-                fail("Expected exception when using a non-matching element type");
-            } catch (WrongElementException e) {
-                TestHelpers.assertContains(e, "Expected a field with name", "type org.htmlunit.html.HtmlImageInput", "input1", "value1", "HtmlTextInput");
-            }
+            TestHelpers.assertContains(
+                    assertThrows(WrongElementException.class,
+                            () -> HtmlUnitUtils.getFormElementByNameAndValue(form, "input1", "value1", HtmlImageInput.class)),
+                    "Expected a field with name", "type org.htmlunit.html.HtmlImageInput", "input1", "value1", "HtmlTextInput");
 
-            try {
-                HtmlUnitUtils.getFormElementByNameAndValue(form, "input1", "valuenotexisting", HtmlTextInput.class);
-                fail("Expected exception when using a non-matching element type");
-            } catch (NoElementFoundException e) {
-                TestHelpers.assertContains(e, "Could not find", "type org.htmlunit.html.HtmlTextInput", "input1", "valuenotexisting");
-            }
+            TestHelpers.assertContains(
+                    assertThrows(NoElementFoundException.class,
+                            () -> HtmlUnitUtils.getFormElementByNameAndValue(form, "input1", "valuenotexisting", HtmlTextInput.class)),
+                    "Could not find", "type org.htmlunit.html.HtmlTextInput", "input1", "valuenotexisting");
 
-            try {
-                HtmlUnitUtils.getFormElementByNameAndValue(form, "duplicate", "value1", HtmlTextInput.class);
-                fail("Expected exception when having duplicate element");
-            } catch (HtmlUnitException e) {
-                TestHelpers.assertContains(e, "Did find more than one element", "type org.htmlunit.html.HtmlTextInput", "duplicate", "value1");
-            }
+            TestHelpers.assertContains(
+                    assertThrows(HtmlUnitException.class,
+                            () -> HtmlUnitUtils.getFormElementByNameAndValue(form, "duplicate", "value1", HtmlTextInput.class)),
+                    "Did find more than one element", "type org.htmlunit.html.HtmlTextInput", "duplicate", "value1");
 
-            try {
-                HtmlUnitUtils.getFormElementByNameAndValue(form, "notexisting", "value1", HtmlImageInput.class);
-                fail("Expected exception when not finding the element");
-            } catch (NoElementFoundException e) {
-                TestHelpers.assertContains(e, "Could not find", "type org.htmlunit.html.HtmlImageInput", "notexisting", "value1");
-            }
+            TestHelpers.assertContains(
+                    assertThrows(NoElementFoundException.class,
+                            () -> HtmlUnitUtils.getFormElementByNameAndValue(form, "notexisting", "value1", HtmlImageInput.class)),
+                    "Could not find", "type org.htmlunit.html.HtmlImageInput", "notexisting", "value1");
 
             verifier.addObject(page);
         } finally {
@@ -497,12 +459,10 @@ public class HtmlUnitUtilsTest {
             HtmlForm form = HtmlUnitUtils.getFormByAction(page, "do");
             assertNotNull(form);
 
-            try {
-                HtmlUnitUtils.getFormByAction(page, "notexisting");
-                fail("Expected exception when using a non-existing form action");
-            } catch (NoElementFoundException e) {
-                TestHelpers.assertContains(e, "Could not find", "notexisting");
-            }
+            TestHelpers.assertContains(
+                    assertThrows(NoElementFoundException.class,
+                            () -> HtmlUnitUtils.getFormByAction(page, "notexisting")),
+                    "Could not find", "notexisting");
 
             verifier.addObject(page);
         } finally {
@@ -540,12 +500,10 @@ public class HtmlUnitUtilsTest {
             assertNotNull(elements);
             assertEquals(0, elements.size(), "Had: " + elements);
 
-            try {
-                HtmlUnitUtils.getElementsByAttributeContains(page, "form", "name", "test", HtmlInlineFrame.class);
-                fail("Expected exception");
-            } catch (WrongElementException e) {
-                TestHelpers.assertContains(e, "Expected a field with tag", "type org.htmlunit.html.HtmlInlineFrame", "test", "HtmlForm");
-            }
+            TestHelpers.assertContains(
+                    assertThrows(WrongElementException.class,
+                            () -> HtmlUnitUtils.getElementsByAttributeContains(page, "form", "name", "test", HtmlInlineFrame.class)),
+                    "Expected a field with tag", "type org.htmlunit.html.HtmlInlineFrame", "test", "HtmlForm");
 
             // none found with normal ByAttribute
             HtmlUnitUtils.getElementsByAttribute(page, "img", "id", "testid", HtmlImage.class);
@@ -625,12 +583,7 @@ public class HtmlUnitUtilsTest {
             try (MockRESTServer server = new MockRESTServer(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_HTML, "<html>Ok</html>")) {
                 verifier.addObject(server);
                 SgmlPage page = webClient.getPage("http://localhost:" + server.getPort());
-                try {
-                    HtmlUnitUtils.waitForText(page, "Not found", 100);
-                    fail("Should catch Exception here");
-                } catch (IllegalStateException e) {
-                    // expected here
-                }
+                assertThrows(IllegalStateException.class, () -> HtmlUnitUtils.waitForText(page, "Not found", 100));
             }
         }
     }
