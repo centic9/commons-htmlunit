@@ -331,7 +331,7 @@ public class HtmlUnitUtils {
      */
     public static void waitForText(SgmlPage page, String str, int waitMS) {
         for(int i = 0;i < waitMS/100;i++) {
-            if(!page.asXml().contains(str)) {
+            if(page.asXml().contains(str)) {
                 // found
                 break;
             }
@@ -343,7 +343,7 @@ public class HtmlUnitUtils {
             }
         }
 
-        Preconditions.checkState(page.asXml().contains(str), "Still found %s", str);
+        Preconditions.checkState(page.asXml().contains(str), "Still not found: %s", str);
     }
 
     /**

@@ -590,6 +590,33 @@ public class HtmlUnitUtilsTest {
 
     @MethodSource("data")
     @ParameterizedTest(name = "Debug-Log: {0}")
+    public void testWaitForTextFoundWithDelay(Boolean enableJavascript) throws Exception {
+        try (WebClient webClient = HtmlUnitUtils.createWebClient(true)) {
+            verifier.addObject(webClient);
+
+            try (MockRESTServer server = new MockRESTServer(() -> {
+                return new NanoHTTPD.Response(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_HTML,
+						// return a page which uses JavaScript to delay for 500ms
+						// before the text "OkFound" appears as part of the HTML page source
+                        "<html><body>" +
+                        "<script>" +
+                        "setTimeout(function() {" +
+                        "  var el = document.createElement('span');" +
+                        "  el.textContent = 'Ok' + 'Found';" +
+                        "  document.body.appendChild(el);" +
+                        "}, 500);" +
+                        "</script>" +
+                        "</body></html>");
+            })) {
+                verifier.addObject(server);
+                SgmlPage page = webClient.getPage("http://localhost:" + server.getPort());
+                HtmlUnitUtils.waitForText(page, "OkFound", 1000);
+            }
+        }
+    }
+
+    @MethodSource("data")
+    @ParameterizedTest(name = "Debug-Log: {0}")
     public void testCreate(Boolean enableJavascript) {
         // cover the create() without parameter as well
         try (WebClient webClient = HtmlUnitUtils.createWebClient()) {
